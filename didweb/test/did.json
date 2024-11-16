@@ -6,14 +6,14 @@
   ],
   "id": "did:web:test.hukoubook.com",
   "alsoKnownAs": [
-    "at://test.hukoubook.com"
+    "at://test.smitechow.com"
   ],
   "verificationMethod": [
     {
       "id": "did:web:test.hukoubook.com#atproto",
       "type": "Multikey",
       "controller": "did:web:test.hukoubook.com",
-      "publicKeyMultibase": "zDnaeQw8dPxJCycXLd4GitnhkkhjUb4S3xCMwEeZ3rCyCKq7M"
+      "publicKeyMultibase": "zQ3shhJfRwpRovy5yJw7G8G7i2aiEEZnYndnLqvb8UArduWSS"
     }
   ],
   "service": [
