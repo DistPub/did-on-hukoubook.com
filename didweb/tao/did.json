@@ -1,0 +1,26 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/multikey/v1",
+    "https://w3id.org/security/suites/secp256k1-2019/v1"
+  ],
+  "id": "did:web:tao.hukoubook.com",
+  "alsoKnownAs": [
+    "at://tao.hukoubook.com"
+  ],
+  "verificationMethod": [
+    {
+      "id": "did:web:tao.hukoubook.com#atproto",
+      "type": "Multikey",
+      "controller": "did:web:tao.hukoubook.com",
+      "publicKeyMultibase": "zDnaeW9ovFgRP1Gu2vj8QPfcUkQyyJrk5FXDzDfHhcEi47Luh"
+    }
+  ],
+  "service": [
+    {
+      "id": "#atproto_pds",
+      "type": "AtprotoPersonalDataServer",
+      "serviceEndpoint": "https://network.hukoubook.com"
+    }
+  ]
+}
