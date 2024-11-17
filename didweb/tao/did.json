@@ -13,7 +13,7 @@
       "id": "did:web:tao.hukoubook.com#atproto",
       "type": "Multikey",
       "controller": "did:web:tao.hukoubook.com",
-      "publicKeyMultibase": "zDnaeW9ovFgRP1Gu2vj8QPfcUkQyyJrk5FXDzDfHhcEi47Luh"
+      "publicKeyMultibase": "zQ3shVfXNwBWSjftuRZBwMFTiyP4ambjpPWv6a686YXqupL7b"
     }
   ],
   "service": [
