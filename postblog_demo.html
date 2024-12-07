@@ -82,6 +82,7 @@
         $('#auth-result').innerText = JSON.stringify(result)
         jwt = result.accessJwt
         did = result.did
+        handle = result.handle
     }
     window.auth = auth
     async function upload_blob() {
