@@ -27,8 +27,7 @@
     const content_types = await response.json()
 
     const $ = document.querySelector.bind(document)
-    let instance = null
-    let public_api_server = 'network.hukoubook.com'
+    let instance = 'network.hukoubook.com'
     let handle = null
     let jwt = null
     let did = null
@@ -41,7 +40,7 @@
         return content_types[prediction.label].mime_type
     }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
-        let api = new URL(`https://${instance ?? public_api_server}/xrpc/${xrpc_method}`)
+        let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
         for (const [key, value] of Object.entries(params)) {
             searchParams.set(key, value)
@@ -158,6 +157,7 @@
         result = await xrpc('com.atproto.sync.getBlob', {params})
         $('#blog-content').innerText = JSON.stringify(result)
     }
+    window.show_blog = show_blog
 
     if (document.readyState === 'loading') {
         // 仍在加载，等待事件
@@ -198,6 +198,7 @@
     <button onclick="create_post()">create post</button>
     <p id="create-post-result"></p>
     <h3>show post & blog</h3>
+    <button onclick="show_blog()">show</button>
     <textarea id="post-content"></textarea>
     <textarea id="blog-content"></textarea>
 </body>
