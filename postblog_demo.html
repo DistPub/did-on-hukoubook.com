@@ -27,7 +27,8 @@
     const content_types = await response.json()
 
     const $ = document.querySelector.bind(document)
-    let instance = 'network.hukoubook.com'
+    let instance = null
+    let public_api_server = 'api.hukoubook.com'
     let handle = null
     let jwt = null
     let did = null
@@ -40,7 +41,7 @@
         return content_types[prediction.label].mime_type
     }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
-        let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
+        let api = new URL(`https://${instance ?? public_api_server}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
         for (const [key, value] of Object.entries(params)) {
             searchParams.set(key, value)
