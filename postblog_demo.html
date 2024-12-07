@@ -27,8 +27,8 @@
         if (data) {
             method = 'POST'
             if (data instanceof File) {
-                headers['Content-Type'] = file.type
-                body = await fetch(file).then(r => r.blob())
+                headers['Content-Type'] = data.type
+                body = await fetch(data).then(r => r.blob())
             } else {
                 headers['Content-Type'] = 'application/json'
                 body = JSON.stringify(data)
@@ -46,7 +46,7 @@
             password
         }
         let result = await xrpc('com.atproto.server.createSession', {data})
-        $('#auth-result').value = JSON.stringify(result)
+        $('#auth-result').innerText = JSON.stringify(result)
         jwt = result.accessJwt
     }
     async function upload_blob() {
