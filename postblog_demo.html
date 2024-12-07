@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>atproto bluesky post embed blog demo</title>
+<script>
+    const $ = document.querySelector.bind(document)
+    let instance = null
+    async function xrpc(method, {params = {}, data = null}) {
+        let api = new URL(`https://${instance}/xrpc/${method}`)
+        let searchParams = new URLSearchParams()
+        for (const [key, value] of Object.entries(params)) {
+            searchParams.set(key, value)
+        }
+        api.search = searchParams.toString()
+
+        let method = 'GET'
+        let headers = {}
+        let body = null
+
+        if (data) {
+            method = 'POST'
+            headers['Content-Type'] = 'application/json'
+            body = JSON.stringify(data)
+        }
+        let response = await fetch(api.toString(), {headers, method, body})
+        return await response.json()
+    }
+    async function auth() {
+        instance = $('#instance').value
+        let handle = $('#handle').value
+        let password = $('#pasword').value
+        let data = {
+            identifier: handle,
+            password
+        }
+        let result = await xrpc('com.atproto.server.createSession', {data})
+        $('auth-result').value = result
+    }
+</script>
+</head>
+<body>
+    <label for="instance">pds instance:</label>
+    <input id="instance" name="instance" type="text" value="network.hukoubook.com"><br>
+    <label for="handle">account handle</label>
+    <input id="handle" name="handle" type="text" value="testfirst.hukoubook.com"><br>
+    <label for="password">app password</label>
+    <input id="password" name="password" type="password"><br>
+    <button onclick="auth()">auth</button>
+    <p id="auth-result"></p>
+</body>
+</html>
