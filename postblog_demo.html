@@ -9,7 +9,8 @@
     "imports": {
         "magika": "https://cdn.jsdelivr.net/npm/magika@0.2.13/dist/mjs/magika.js",
         "fs/promises": "https://cdn.jsdelivr.net/npm/memfs-browser@3.5.10302/dist/memfs.esm.js",
-        "@tensorflow/tfjs": "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.fesm.js"
+        "@tensorflow/tfjs": "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.fesm.js",
+        "@atproto/common-web": "https://cdn.jsdelivr.net/npm/@atproto/common-web@0.3.1/dist/index.min.js"
     }
 }
 </script>
@@ -18,6 +19,7 @@
     window.Buffer = safeBuffer.Buffer
 </script>
 <script type="module">
+    import {TID} from '@atproto/common-web'
     import { Magika } from "magika"
     const magika = new Magika()
     await magika.load()
@@ -26,16 +28,16 @@
 
     const $ = document.querySelector.bind(document)
     let instance = null
+    let handle = null
     let jwt = null
     let did = null
+    let blobs = []
+    let tid = undefined
+
     async function detech_file_type(file) {
         if (file.type) return file.type
         const prediction = await magika.identifyBytesFull(new Uint8Array(await file.arrayBuffer()))
         return content_types[prediction.label].mime_type
-    }
-    function fix_text_plain(mime) {
-        if (mime === 'text/plain') return `${mime}; charset=utf-8`
-        return mime
     }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
@@ -56,7 +58,7 @@
         if (data) {
             method = 'POST'
             if (data instanceof File) {
-                headers['Content-Type'] = fix_text_plain(await detech_file_type(data))
+                headers['Content-Type'] = await detech_file_type(data)
                 body = data
             } else {
                 headers['Content-Type'] = 'application/json'
@@ -68,7 +70,7 @@
     }
     async function auth() {
         instance = $('#instance').value
-        let handle = $('#handle').value
+        handle = $('#handle').value
         let password = $('#password').value
         let data = {
             identifier: handle,
@@ -82,13 +84,56 @@
     window.auth = auth
     async function upload_blob() {
         if (jwt === null) return alert('missing jwt')
+
         let file = $('#blob').files[0]
         let result = await xrpc('com.atproto.repo.uploadBlob', {data: file})
         let repr_ele = document.createElement('li')
         repr_ele.innerText = JSON.stringify(result)
         $('#blob-list').appendChild(repr_ele)
+        blobs.push(result.blob)
     }
     window.upload_blob = upload_blob
+    async function create_post() {
+        if (jwt === null) return alert('missing jwt')
+
+        tid = TID.next(tid)
+        const rkey = tid.toString()
+        let text = $('#post-text').value
+        let at_uri = `at://${did}/app.bsky.feed.post/${rkey}`
+        // uri reference to self, magic
+        let uri = `https://did-on-hukoubook-com.pages.dev/postblog_demo?show=${encodeURIComponent(at_uri)}`
+        $('#external-uri').value = uri
+        let title = $('#external-title').value
+        let description = $('#external-description').value
+        let thumb = null
+        if ($('#external-thumb').files.length) {
+            let result = await xrpc('com.atproto.repo.uploadBlob', {data: $('#external-thumb').files[0]})
+            thumb = result.blob
+        }
+        let result = await xrpc('com.atproto.repo.uploadBlob', {data: $('#blog').files[0]})
+        let blog = result.blob
+        let data = {
+            repo: handle,
+            "collection": "app.bsky.feed.post",
+            rkey,
+            "record": {
+                "$type": "app.bsky.feed.post",
+                text,
+                "createdAt": new Date().toISOString(),
+                "embed": {
+                    "$type": "app.bsky.embed.external",
+                    external: {
+                        uri, title, description, thumb,
+                        // attach magic
+                        blobs, blog
+                    }
+                }
+            }
+        }
+        let response = await xrpc('com.atproto.repo.createRecord', {data})
+        result = await response.json()
+        $('#create-post-result').value = JSON.stringify(result)
+    }
 </script>
 </head>
 <body>
@@ -105,5 +150,20 @@
     <button onclick="upload_blob()">upload</button>
     <ol id="blob-list">
     </ol>
+    <p>all above blob will attach to post in external object under blobs key</p>
+    <label for="post-text">post text</label>
+    <input id="post-text" name="post-text" type="text"><br>
+    <label for="external-uri">external uri</label>
+    <input id="external-uri" name="external-uri" type="text" disabled><br>
+    <label for="external-title">external title</label>
+    <input id="external-title" name="external-title" type="text"><br>
+    <label for="external-description">external description</label>
+    <input id="external-description" name="external-description" type="text"><br>
+    <label for="external-thumb">external thumb image</label>
+    <input id="external-thumb" name="external-thumb" type="file"><br>
+    <label for="blog">blog markdown file</label>
+    <input id="blog" name="blog" type="file"><br>
+    <button onclick="create_post()">create post</button>
+    <p id="create-post-result"></p>
 </body>
 </html>
