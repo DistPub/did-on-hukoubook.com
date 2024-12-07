@@ -4,11 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>atproto bluesky post embed blog demo</title>
-<script>
+<script type="importmap">
+{
+    "imports": {
+        "magika": "https://cdn.jsdelivr.net/npm/magika@0.2.13/+esm"
+    }
+}
+</script>
+<script type="module">
+    import { Magika } from "magika"
+    const magika = new Magika();
+    await magika.load();
+
     const $ = document.querySelector.bind(document)
     let instance = null
     let jwt = null
     let did = null
+    async function detech_file_type(file) {
+        if (file.type) return file.type
+        const prediction = await magika.identifyBytesFull(new Uint8Array(await file.arrayBuffer()));
+        console.log(prediction)
+    }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
@@ -28,7 +44,7 @@
         if (data) {
             method = 'POST'
             if (data instanceof File) {
-                headers['Content-Type'] = data.type
+                headers['Content-Type'] = detech_file_type(data)
                 body = data
             } else {
                 headers['Content-Type'] = 'application/json'
