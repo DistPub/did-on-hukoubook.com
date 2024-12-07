@@ -73,6 +73,7 @@
         jwt = result.accessJwt
         did = result.did
     }
+    window.auth = auth
     async function upload_blob() {
         if (jwt === null) return alert('missing jwt')
         let file = $('#blob').files[0]
@@ -81,6 +82,7 @@
         repr_ele.innerText = JSON.stringify(result)
         $('#blob-list').appendChild(repr_ele)
     }
+    window.upload_blob = upload_blob
 </script>
 </head>
 <body>
