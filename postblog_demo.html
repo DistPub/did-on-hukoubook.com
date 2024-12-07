@@ -14,8 +14,8 @@
 }
 </script>
 <script type="module">
-    import { Buffer } from "https://cdn.jsdelivr.net/npm/safe-buffer@5.2.1/+esm"
-    window.Buffer = Buffer
+    import safeBuffer from "https://cdn.jsdelivr.net/npm/safe-buffer@5.2.1/+esm"
+    window.Buffer = safeBuffer.Buffer
 </script>
 <script type="module">
     import { Magika } from "magika"
