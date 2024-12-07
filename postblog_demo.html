@@ -19,8 +19,10 @@
 </script>
 <script type="module">
     import { Magika } from "magika"
-    const magika = new Magika();
-    await magika.load();
+    const magika = new Magika()
+    await magika.load()
+    const response = await fetch('https://raw.githubusercontent.com/google/magika/refs/heads/main/python/src/magika/config/content_types_kb.min.json')
+    const content_types = await response.json()
 
     const $ = document.querySelector.bind(document)
     let instance = null
@@ -28,8 +30,8 @@
     let did = null
     async function detech_file_type(file) {
         if (file.type) return file.type
-        const prediction = await magika.identifyBytesFull(new Uint8Array(await file.arrayBuffer()));
-        console.log(prediction)
+        const prediction = await magika.identifyBytesFull(new Uint8Array(await file.arrayBuffer()))
+        return content_types[prediction.label].mime_type
     }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
