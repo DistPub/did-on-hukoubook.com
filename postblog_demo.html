@@ -130,11 +130,34 @@
                 }
             }
         }
-        let response = await xrpc('com.atproto.repo.createRecord', {data})
-        result = await response.json()
+        result = await xrpc('com.atproto.repo.createRecord', {data})
         $('#create-post-result').value = JSON.stringify(result)
+        let preview_ele = document.createElement('a')
+        preview_ele.href = uri
+        preview_ele.innerText = 'preview blog'
+        $('body').appendChild(preview_ele)
     }
     window.create_post = create_post
+    function show_blog() {
+        let url = new URL(location.href)
+        let at_uri = url.searchParams.get('show')
+        if (!at_uri) return
+        
+        let params = {uri: at_uri, depth: 0}
+        let result = xrpc('app.bsky.feed.getPostThread', {params})
+        $('#post-content').innerText = JSON.stringify(result)
+        let post = result.thread.post
+        let blog_blob = post.embed.external.blog
+        let did = post.author.did
+        if (!blog_blob) return alert('no blog found in this post')
+
+        params = {
+            did, cid: blog_blob.ref.$link
+        }
+        result = xrpc('com.atproto.sync.getBlob', {params})
+        $('#blog-content').innerText = JSON.stringify(result)
+    }
+    window.addEventListener('load', show_blog)
 </script>
 </head>
 <body>
@@ -166,5 +189,8 @@
     <input id="blog" name="blog" type="file"><br>
     <button onclick="create_post()">create post</button>
     <p id="create-post-result"></p>
+
+    <textarea id="post-content"></textarea>
+    <textarea id="blog-content"></textarea>
 </body>
 </html>
