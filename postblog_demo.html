@@ -152,7 +152,8 @@
         let result = await response.json()
         for (let service of result.service) {
             if (service.id === '#atproto_pds') {
-                instance = service.serviceEndpoint
+                let endpoint = new URL(service.serviceEndpoint)
+                instance = endpoint.host
                 return
             }
         }
