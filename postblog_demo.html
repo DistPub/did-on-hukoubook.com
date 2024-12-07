@@ -7,8 +7,8 @@
 <script>
     const $ = document.querySelector.bind(document)
     let instance = null
-    async function xrpc(method, {params = {}, data = null}) {
-        let api = new URL(`https://${instance}/xrpc/${method}`)
+    async function xrpc(xrpc_method, {params = {}, data = null}) {
+        let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
         for (const [key, value] of Object.entries(params)) {
             searchParams.set(key, value)
@@ -41,7 +41,7 @@
 </script>
 </head>
 <body>
-    <label for="instance">pds instance:</label>
+    <label for="instance">pds instance</label>
     <input id="instance" name="instance" type="text" value="network.hukoubook.com"><br>
     <label for="handle">account handle</label>
     <input id="handle" name="handle" type="text" value="testfirst.hukoubook.com"><br>
