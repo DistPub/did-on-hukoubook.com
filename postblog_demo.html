@@ -52,7 +52,7 @@
         if (data) {
             method = 'POST'
             if (data instanceof File) {
-                headers['Content-Type'] = detech_file_type(data)
+                headers['Content-Type'] = await detech_file_type(data)
                 body = data
             } else {
                 headers['Content-Type'] = 'application/json'
