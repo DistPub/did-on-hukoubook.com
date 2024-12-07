@@ -139,14 +139,14 @@
         $('body').appendChild(preview_ele)
     }
     window.create_post = create_post
-    function show_blog() {
+    async function show_blog() {
         let url = new URL(location.href)
         let at_uri = url.searchParams.get('show')
         if (!at_uri) return
         let [at_did, at_collection, at_rkey] = at_uri.slice('at://'.length).split('/')
 
         let params = {repo: at_did, collection: at_collection, rkey: at_rkey}
-        let result = xrpc('com.atproto.repo.getRecord', {params})
+        let result = await xrpc('com.atproto.repo.getRecord', {params})
         $('#post-content').innerText = JSON.stringify(result)
         let post = result.value
         let blog_blob = post.embed.external.blog
@@ -155,7 +155,7 @@
         params = {
             did: at_did, cid: blog_blob.ref.$link
         }
-        result = xrpc('com.atproto.sync.getBlob', {params})
+        result = await xrpc('com.atproto.sync.getBlob', {params})
         $('#blog-content').innerText = JSON.stringify(result)
     }
 
