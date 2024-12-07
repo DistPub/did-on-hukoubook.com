@@ -157,7 +157,14 @@
         result = xrpc('com.atproto.sync.getBlob', {params})
         $('#blog-content').innerText = JSON.stringify(result)
     }
-    document.addEventListener("DOMContentLoaded", show_blog)
+
+    if (document.readyState === 'loading') {
+        // 仍在加载，等待事件
+        document.addEventListener('DOMContentLoaded', show_blog);
+    } else {
+        // DOM 已就绪
+        show_blog();
+    }
 </script>
 </head>
 <body>
