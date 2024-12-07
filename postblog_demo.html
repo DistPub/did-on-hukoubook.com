@@ -33,6 +33,10 @@
         const prediction = await magika.identifyBytesFull(new Uint8Array(await file.arrayBuffer()))
         return content_types[prediction.label].mime_type
     }
+    function fix_text_plain(mime) {
+        if (mime === 'text/plain') return `${mime}; charset=utf-8`
+        return mime
+    }
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
@@ -52,7 +56,7 @@
         if (data) {
             method = 'POST'
             if (data instanceof File) {
-                headers['Content-Type'] = await detech_file_type(data)
+                headers['Content-Type'] = fix_text_plain(await detech_file_type(data))
                 body = data
             } else {
                 headers['Content-Type'] = 'application/json'
