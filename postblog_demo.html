@@ -8,6 +8,7 @@
     const $ = document.querySelector.bind(document)
     let instance = null
     let jwt = null
+    let did = null
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
@@ -28,7 +29,7 @@
             method = 'POST'
             if (data instanceof File) {
                 headers['Content-Type'] = data.type
-                body = await fetch(data).then(r => r.blob())
+                body = data
             } else {
                 headers['Content-Type'] = 'application/json'
                 body = JSON.stringify(data)
@@ -48,6 +49,7 @@
         let result = await xrpc('com.atproto.server.createSession', {data})
         $('#auth-result').innerText = JSON.stringify(result)
         jwt = result.accessJwt
+        did = result.did
     }
     async function upload_blob() {
         if (jwt === null) return alert('missing jwt')
