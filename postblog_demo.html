@@ -157,7 +157,7 @@
         result = xrpc('com.atproto.sync.getBlob', {params})
         $('#blog-content').innerText = JSON.stringify(result)
     }
-    window.addEventListener('load', show_blog)
+    document.addEventListener("DOMContentLoaded", show_blog)
 </script>
 </head>
 <body>
@@ -189,7 +189,7 @@
     <input id="blog" name="blog" type="file"><br>
     <button onclick="create_post()">create post</button>
     <p id="create-post-result"></p>
-
+    <h3>show post & blog</h3>
     <textarea id="post-content"></textarea>
     <textarea id="blog-content"></textarea>
 </body>
