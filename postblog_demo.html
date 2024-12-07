@@ -7,6 +7,7 @@
 <script>
     const $ = document.querySelector.bind(document)
     let instance = null
+    let jwt = null
     async function xrpc(xrpc_method, {params = {}, data = null}) {
         let api = new URL(`https://${instance}/xrpc/${xrpc_method}`)
         let searchParams = new URLSearchParams()
@@ -19,10 +20,19 @@
         let headers = {}
         let body = null
 
+        if (jwt !== null) {
+            headers['Authorization'] = `Bearer ${jwt}`
+        }
+
         if (data) {
             method = 'POST'
-            headers['Content-Type'] = 'application/json'
-            body = JSON.stringify(data)
+            if (data instanceof File) {
+                headers['Content-Type'] = file.type
+                body = await fetch(file).then(r => r.blob())
+            } else {
+                headers['Content-Type'] = 'application/json'
+                body = JSON.stringify(data)
+            }
         }
         let response = await fetch(api.toString(), {headers, method, body})
         return await response.json()
@@ -36,7 +46,16 @@
             password
         }
         let result = await xrpc('com.atproto.server.createSession', {data})
-        $('auth-result').value = result
+        $('#auth-result').value = JSON.stringify(result)
+        jwt = result.accessJwt
+    }
+    async function upload_blob() {
+        if (jwt === null) return alert('missing jwt')
+        let file = $('#blob').files[0]
+        let result = await xrpc('com.atproto.repo.uploadBlob', {data: file})
+        let repr_ele = document.createElement('li')
+        repr_ele.innerText = JSON.stringify(result)
+        $('#blob-list').appendChild(repr_ele)
     }
 </script>
 </head>
@@ -49,5 +68,10 @@
     <input id="password" name="password" type="password"><br>
     <button onclick="auth()">auth</button>
     <p id="auth-result"></p>
+    <label for="blob">blob upload</label>
+    <input id="blob" name="blob" type="file"><br>
+    <button onclick="upload_blob()">upload</button>
+    <ol id="blob-list">
+    </ol>
 </body>
 </html>
