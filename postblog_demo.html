@@ -27,7 +27,7 @@
     const content_types = await response.json()
 
     const $ = document.querySelector.bind(document)
-    let instance = 'network.hukoubook.com'
+    let instance = null
     let handle = null
     let jwt = null
     let did = null
@@ -140,11 +140,30 @@
         $('body').appendChild(preview_ele)
     }
     window.create_post = create_post
+
+    async function resolve_pds_instance(at_did) {
+        let did_uri = undefined
+        if (at_did.startsWith('did:plc:')) {
+            did_uri = `https://plc.directory/${at_did}`
+        } else {
+            did_uri = `${at_did.slice('did:web:'.length)}/.well-known/did.json`
+        }
+        let response = await fetch(did_uri)
+        let result = await response.json()
+        for (let service of result.service) {
+            if (service.id === '#atproto_pds') {
+                instance = service.serviceEndpoint
+                return
+            }
+        }
+        throw Error('missing pds service')
+    }
     async function show_blog() {
         let url = new URL(location.href)
         let at_uri = url.searchParams.get('show')
         if (!at_uri) return
         let [at_did, at_collection, at_rkey] = at_uri.slice('at://'.length).split('/')
+        await resolve_pds_instance(at_did)
 
         let params = {repo: at_did, collection: at_collection, rkey: at_rkey}
         let result = await xrpc('com.atproto.repo.getRecord', {params})
