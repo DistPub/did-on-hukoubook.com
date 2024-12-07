@@ -143,17 +143,17 @@
         let url = new URL(location.href)
         let at_uri = url.searchParams.get('show')
         if (!at_uri) return
-        
-        let params = {uri: at_uri, depth: 0}
-        let result = xrpc('app.bsky.feed.getPostThread', {params})
+        let [at_did, at_collection, at_rkey] = at_uri.slice('at://'.length).split('/')
+
+        let params = {repo: at_did, collection: at_collection, rkey: at_rkey}
+        let result = xrpc('com.atproto.repo.getRecord', {params})
         $('#post-content').innerText = JSON.stringify(result)
-        let post = result.thread.post
+        let post = result.value
         let blog_blob = post.embed.external.blog
-        let did = post.author.did
         if (!blog_blob) return alert('no blog found in this post')
 
         params = {
-            did, cid: blog_blob.ref.$link
+            did: at_did, cid: blog_blob.ref.$link
         }
         result = xrpc('com.atproto.sync.getBlob', {params})
         $('#blog-content').innerText = JSON.stringify(result)
