@@ -13,7 +13,7 @@
       "id": "did:web:cgv.hukoubook.com#atproto",
       "type": "Multikey",
       "controller": "did:web:cgv.hukoubook.com",
-      "publicKeyMultibase": "zDnaeR7Scw6U2GrmbCj3tzz2v5QHQdVmrP4a9t3moENgNb8jp"
+      "publicKeyMultibase": "zQ3shYa6izAjgjt3q5VxJSHTZXDMvuH7aDMUJiXB7YZBF1ryk"
     }
   ],
   "service": [
