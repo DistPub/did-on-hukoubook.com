@@ -23,6 +23,6 @@
       "type": "AtprotoPersonalDataServer",
       "serviceEndpoint": "https://network.hukoubook.com"
     },
-    {"id":"#atproto_labeler","type":"AtprotoLabeler","serviceEndpoint":"https://feedg.hukoubook.com"}
+    {"id":"#atproto_labeler","type":"AtprotoLabeler","serviceEndpoint":"https://labeler.hukoubook.com"}
   ]
 }
