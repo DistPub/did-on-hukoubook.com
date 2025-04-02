@@ -14,13 +14,15 @@
       "type": "Multikey",
       "controller": "did:web:cgv.hukoubook.com",
       "publicKeyMultibase": "zQ3shYa6izAjgjt3q5VxJSHTZXDMvuH7aDMUJiXB7YZBF1ryk"
-    }
+    },
+    {"id":"did:web:cgv.hukoubook.com#atproto_label","type":"Multikey","controller":"did:web:cgv.hukoubook.com","publicKeyMultibase":"zQ3shm4xyetXjvFmJnJweV3KS4o6q8Y6zoD1jYojEQjmbBoH9"}
   ],
   "service": [
     {
       "id": "#atproto_pds",
       "type": "AtprotoPersonalDataServer",
       "serviceEndpoint": "https://network.hukoubook.com"
-    }
+    },
+    {"id":"#atproto_labeler","type":"AtprotoLabeler","serviceEndpoint":"https://feedg.hukoubook.com"}
   ]
 }
