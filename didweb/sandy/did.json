@@ -13,7 +13,7 @@
       "id": "did:web:sandy.hukoubook.com#atproto",
       "type": "Multikey",
       "controller": "did:web:sandy.hukoubook.com",
-      "publicKeyMultibase": "zDnaeXqF75N9bMHDjwa9nZxoN55zZKhEXNmTJc3Mx9LaS8VPC"
+      "publicKeyMultibase": "zQ3sheKW4ZEonuaHVA5v9qTXX6kZavMA6vBUS8oPPTUVs27hZ"
     }
   ],
   "service": [
