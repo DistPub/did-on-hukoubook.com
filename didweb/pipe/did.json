@@ -13,7 +13,7 @@
       "id": "did:web:pipe.hukoubook.com#atproto",
       "type": "Multikey",
       "controller": "did:web:pipe.hukoubook.com",
-      "publicKeyMultibase": "zDnaej6gkanGjruq7LV4ZkHXcojJcWYTYpWZjH7TSoWX42MxQ"
+      "publicKeyMultibase": "zQ3shtQ5RAYPnoZTUNKk9nUoPhiUmkvjgig6SYTf7iim4s22z"
     }
   ],
   "service": [
