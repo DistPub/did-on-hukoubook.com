@@ -14,7 +14,19 @@
       "type": "Multikey",
       "controller": "did:web:test.hukoubook.com",
       "publicKeyMultibase": "zQ3shhJfRwpRovy5yJw7G8G7i2aiEEZnYndnLqvb8UArduWSS"
-    }
+    },
+    {
+         "id": "did:web:test.hukoubook.com#dme_encryption",
+         "type": "Multikey",
+         "controller": "did:web:test.hukoubook.com",
+         "publicKeyMultibase": "z6LShP7DChWYEfSzyjt1Ep3UsbGyv4vxaPbLQkfYe3NKSkTg"
+       },
+       {
+         "id": "did:web:test.hukoubook.com#dme_signing",
+         "type": "Multikey",
+         "controller": "did:web:test.hukoubook.com",
+         "publicKeyMultibase": "z6Mku4v5mihUcRdU2vc3KVa7etoBzNCMnKbse56iSS9FDf8U"
+       }
   ],
   "service": [
     {
