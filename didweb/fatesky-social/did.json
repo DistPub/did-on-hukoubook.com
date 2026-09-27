@@ -14,6 +14,18 @@
       "type": "Multikey",
       "controller": "did:web:fatesky-social.hukoubook.com",
       "publicKeyMultibase": "zQ3shoApYq55gvdwLt3UrwY1CgmfuMZaENZbXrNXTKo37Be3x"
+    },
+    {
+      "id": "did:web:fatesky-social.hukoubook.com#dme_encryption",
+      "type": "Multikey",
+      "controller": "did:web:fatesky-social.hukoubook.com",
+      "publicKeyMultibase": "z6LStpXzZ4CLkcZgk5Kj2ds34r7DJPuZvpVkFd2gmPSJTnCS"
+    },
+    {
+      "id": "did:web:fatesky-social.hukoubook.com#dme_signing",
+      "type": "Multikey",
+      "controller": "did:web:fatesky-social.hukoubook.com",
+      "publicKeyMultibase": "z6MkgTJYWUFMWfYvEvHd73n99kzqFGRkiqk6qYmiu1Qb4Bo2"
     }
   ],
   "service": [
