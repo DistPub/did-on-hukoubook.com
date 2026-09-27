@@ -14,6 +14,18 @@
       "type": "Multikey",
       "controller": "did:web:smite.hukoubook.com",
       "publicKeyMultibase": "zQ3shcuEGrxWaEpjApMCVHQ6EhEa45sWWnp2kayV3s13mNWXY"
+    },
+    {
+      "id": "did:web:smite.hukoubook.com#dme_encryption",
+      "type": "Multikey",
+      "controller": "did:web:smite.hukoubook.com",
+      "publicKeyMultibase": "z6LSdEK1SZuBFBtpAPoAcQMTkDQsHUK5sLZhTPDoEZ8PwUpJ"
+    },
+    {
+      "id": "did:web:smite.hukoubook.com#dme_signing",
+      "type": "Multikey",
+      "controller": "did:web:smite.hukoubook.com",
+      "publicKeyMultibase": "z6MkfCHzt8MZVzi9Xx9eWt7EUGfYVP1VfpM6ybJyHovrEM5v"
     }
   ],
   "service": [
